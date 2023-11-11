@@ -11,9 +11,9 @@ import Control.Contact;
  * @author sren9
  */
 public class FemaleContact extends Contact{
-    private short intentions;
+    private int intentions;
 
-    public FemaleContact(short intentions, String name, int phoneNumber) {
+    public FemaleContact(String name, int phoneNumber, int intentions) {
         super(name, phoneNumber);
         this.intentions = intentions;
     }
@@ -38,7 +38,7 @@ public class FemaleContact extends Contact{
     this.phoneNumber = phoneNumber;
     }
 
-    public short getIntentions() {
+    public int getIntentions() {
         return intentions;
     }
 
