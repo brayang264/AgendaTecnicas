@@ -18,8 +18,9 @@ public class Agenda {
         MaleContact prueba = new MaleContact("probando", 123);
         FemaleContact pruebaa = new FemaleContact("probando pero femenino", 456, 3);
         ContactCollection test = new ContactCollection();
+        MaleContact noestoy = new MaleContact("nooo", 789);
         test.addContact(prueba);
         test.addContact(pruebaa);
-        System.out.println(test.searchContact(pruebaa));
+        System.out.println(test.searchContact(noestoy));
     }
 }
