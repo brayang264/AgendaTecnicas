@@ -1,0 +1,5 @@
+Model\ContactCollection.class
+com\mycompany\agenda\Agenda.class
+Control\Contact.class
+Model\FemaleContact.class
+Model\MaleContact.class

@@ -1,0 +1,49 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Model;
+
+import Control.Contact;
+
+/**
+ *
+ * @author sren9
+ */
+public class FemaleContact extends Contact{
+    private short intentions;
+
+    public FemaleContact(short intentions, String name, int phoneNumber) {
+        super(name, phoneNumber);
+        this.intentions = intentions;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+    this.name = name;
+    }
+
+    @Override
+    public int getPhoneNumber() {
+    return phoneNumber;
+    }
+
+    @Override
+    public void setPhoneNumber(int phoneNumber) {
+    this.phoneNumber = phoneNumber;
+    }
+
+    public short getIntentions() {
+        return intentions;
+    }
+
+    public void setIntentions(short intentions) {
+        this.intentions = intentions;
+    }
+    
+}
