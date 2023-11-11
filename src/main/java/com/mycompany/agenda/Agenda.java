@@ -1,26 +1,19 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package com.mycompany.agenda;
 
-import Model.ContactCollection;
-import Model.FemaleContact;
-import Model.MaleContact;
+import com.mycompany.view.AddContact;
+import java.sql.SQLException;
 
 /**
  *
- * @author sren9
+ * @author Admin
  */
 public class Agenda {
-
-    public static void main(String[] args) {
-        MaleContact prueba = new MaleContact("probando", 123);
-        FemaleContact pruebaa = new FemaleContact("probando pero femenino", 456, 3);
-        ContactCollection test = new ContactCollection();
-        MaleContact noestoy = new MaleContact("nooo", 789);
-        test.addContact(prueba);
-        test.addContact(pruebaa);
-        System.out.println(test.searchContact(noestoy));
+    public static void main(String[] args) throws SQLException {
+        AddContact addContact = new AddContact();
+        addContact.setVisible(true);
     }
 }

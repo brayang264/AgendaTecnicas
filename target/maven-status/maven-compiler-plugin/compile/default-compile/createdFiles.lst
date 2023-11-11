@@ -1,5 +1,11 @@
-Model\ContactCollection.class
+com\mycompany\view\AddContact$3.class
+com\mycompany\control\ControlDB.class
+com\mycompany\view\AddContact.class
+com\mycompany\model\ConnectionDB.class
+com\mycompany\view\AddContact$1.class
+com\mycompany\view\AddContact$4.class
+com\mycompany\control\Connections.class
+com\mycompany\control\Validate.class
+com\mycompany\view\AddContact$2.class
+com\mycompany\view\AddContact$5.class
 com\mycompany\agenda\Agenda.class
-Control\Contact.class
-Model\FemaleContact.class
-Model\MaleContact.class
