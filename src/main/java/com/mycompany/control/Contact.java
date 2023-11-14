@@ -10,17 +10,34 @@ package com.mycompany.control;
  */
 public abstract class Contact {
     protected String name;
-    protected int phoneNumber;
+    protected String lastName;
+    protected String email;
+    protected int gender;
+    protected ImagenAlmacen image;
+    protected double phoneNumber;
 
-    public Contact(String name, int phoneNumber) {
+    public Contact(String name, double phoneNumber, String lastName, String email, int gender, ImagenAlmacen image) {
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.lastName = lastName;
+        this.email = email;
+        this.gender = gender;
+        this.image = image;
     }
 
     public abstract String getName();
     public abstract void setName(String name);
-    public abstract int getPhoneNumber();
+    public abstract double getPhoneNumber();
     public abstract void setPhoneNumber(int phoneNumber);
+    public abstract String getLastName();
+    public abstract void setLastName(String lastName);
+    public abstract String getEmail();
+    public abstract void setEmail(String email);
+    public abstract int getGender();
+    public abstract void setGender(int gender);
+    public abstract ImagenAlmacen getImage();
+    public abstract void setImage(ImagenAlmacen image);
+    
 
     
     

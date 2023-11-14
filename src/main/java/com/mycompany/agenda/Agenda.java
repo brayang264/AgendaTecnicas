@@ -4,7 +4,7 @@
  */
 package com.mycompany.agenda;
 
-import com.mycompany.view.AddContact;
+import com.mycompany.view.ContactList;
 import java.sql.SQLException;
 
 /**
@@ -13,7 +13,7 @@ import java.sql.SQLException;
  */
 public class Agenda {
     public static void main(String[] args) throws SQLException {
-        AddContact addContact = new AddContact();
-        addContact.setVisible(true);
+        ContactList contact = new ContactList();
+        contact.setVisible(true);
     }
 }

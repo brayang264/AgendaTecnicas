@@ -9,9 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import com.mycompany.control.ControlDB;
+import com.mycompany.control.ImagenAlmacen;
+import com.mycompany.control.Validate;
 import java.sql.ResultSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 /**
  *
  * @author Brayan
@@ -21,7 +21,7 @@ public class ConnectionDB implements Connections{
     private String sql;
     //Metodo para añadir un nuevo contacto a la base de datos.
     @Override
-    public boolean addContact(String name, String lastName, double phoneNum, String email, int gender, int intentions, int socialGrup) {
+    public boolean addContact(String name, String lastName, double phoneNum, String email, int gender, int intentions, int socialGrup,ImagenAlmacen mImagen) {
         //Obtiewne la coneción a la base de datos a travez de un metodo de la clase controldb
         Connection connection = ControlDB.getConnection();
         //Comprueba si la coneccion es nula y en caso tal no se sigue con el insert
@@ -31,7 +31,7 @@ public class ConnectionDB implements Connections{
             
             //Sentencia para la inserción
             sql = "INSERT INTO contactos (Numero, Nombre, apellido, Correo, Sexo, "
-                   + "Intenciones, Grupo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                   + "Intenciones, Grupo, Imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             //Se hace una consulta parametrizada con el siguiente objeto
             try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
                 //Se agregan los valores a los parametros
@@ -39,11 +39,13 @@ public class ConnectionDB implements Connections{
                 preparedStatement.setString(2, name);
                 preparedStatement.setString(3, lastName);
                 preparedStatement.setString(4, email);
-                preparedStatement.setInt(5, gender);
-                preparedStatement.setInt(6, intentions);
-                preparedStatement.setInt(7,socialGrup);
+                preparedStatement.setInt(5, gender+1);
+                preparedStatement.setInt(6, intentions+1);
+                preparedStatement.setInt(7,socialGrup+1);
+                preparedStatement.setBytes(8, mImagen.getImagen());
                 //Se ejecuta la sentencia de inserción
                 int addedRows = preparedStatement.executeUpdate();
+                connectionClose(preparedStatement, connection);
                 return addedRows >0;
             }catch (SQLException e) {
                 return false;
@@ -59,6 +61,9 @@ public class ConnectionDB implements Connections{
             sql = "SELECT "+column+" FROM "+table;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
                  ResultSet resultSet = preparedStatement.executeQuery()){
+                preparedStatement.close();
+                connection.close();
+                connectionClose(preparedStatement,connection);
                 return resultSet;
                 
             } catch (SQLException ex) {
@@ -66,5 +71,47 @@ public class ConnectionDB implements Connections{
             }
         }
     }
+    
+    //Verifica si un contacto ya existe
+    @Override
+    public boolean contactExist(double phoneNum){
+        Connection connection = ControlDB.getConnection();
+        try{
+            sql = "SELECT COUNT(*) FROM contactos WHERE Numero = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setDouble(1, phoneNum);
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()){
+                int count = resultSet.getInt(1);
+                connectionClose(statement,connection);
+                return count >0;
+            }
+        }catch(SQLException e){
+            Validate.consolePrint(e.toString());
+            return false;
+        }
+        return false;
+    }
+    @Override
+    public ResultSet getTable(String nameTable){
+        Connection connection = ControlDB.getConnection();
+        sql = "SELECT * FROM "+nameTable;
+        try{
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery();
+             connectionClose(statement,connection);
+             return resultSet;
+        }catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    //Metodo para cerrar las coneciones con la bd
+    @Override
+    public void connectionClose(PreparedStatement statement, Connection connection) throws SQLException {
+        statement.close();
+        connection.close();
+    }
+
     
 }

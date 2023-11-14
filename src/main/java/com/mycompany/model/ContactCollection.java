@@ -26,7 +26,7 @@ public class ContactCollection {
     public String searchContact(Contact contact){  
         int searchIndex = directory.indexOf(contact); 
         if (searchIndex != -1){
-            return directory.get(searchIndex).getName() +" "+ Integer.toString(directory.get(searchIndex).getPhoneNumber());
+            return directory.get(searchIndex).getName() +" "+ Double.toString(directory.get(searchIndex).getPhoneNumber());
         }
         return "Contacto no encontrado";
     }

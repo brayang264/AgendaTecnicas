@@ -5,6 +5,7 @@
 package com.mycompany.model;
 
 import com.mycompany.control.Contact;
+import com.mycompany.control.ImagenAlmacen;
 
 /**
  *
@@ -13,8 +14,9 @@ import com.mycompany.control.Contact;
 public class FemaleContact extends Contact{
     private int intentions;
 
-    public FemaleContact(String name, int phoneNumber, int intentions) {
-        super(name, phoneNumber);
+    public FemaleContact(String name, double phoneNumber, int intentions, String lastName, String email
+    ,int gender, ImagenAlmacen image) {
+        super(name, phoneNumber,lastName,email,gender,image);
         this.intentions = intentions;
     }
 
@@ -29,8 +31,8 @@ public class FemaleContact extends Contact{
     }
 
     @Override
-    public int getPhoneNumber() {
-    return phoneNumber;
+    public double getPhoneNumber() {
+        return phoneNumber;
     }
 
     @Override
@@ -44,6 +46,46 @@ public class FemaleContact extends Contact{
 
     public void setIntentions(short intentions) {
         this.intentions = intentions;
+    }
+
+    @Override
+    public String getLastName() {
+        return lastName;
+    }
+
+    @Override
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Override
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public int getGender() {
+        return gender;
+    }
+
+    @Override
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    @Override
+    public ImagenAlmacen getImage() {
+        return image;
+    }
+
+    @Override
+    public void setImage(ImagenAlmacen image) {
+        this.image = image;
     }
     
 }

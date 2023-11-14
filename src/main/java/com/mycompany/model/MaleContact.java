@@ -4,14 +4,16 @@
  */
 package com.mycompany.model;
 import com.mycompany.control.Contact;
+import com.mycompany.control.ImagenAlmacen;
 /**
  *
  * @author sren9
  */
 public class MaleContact extends Contact {
 
-    public MaleContact(String name, int phoneNumber) {
-        super(name, phoneNumber);
+    public MaleContact(String name, double phoneNumber, String lastName, String email
+    ,int gender, ImagenAlmacen image) {
+        super(name, phoneNumber, lastName, email, gender, image);
     }
 
     @Override
@@ -25,13 +27,51 @@ public class MaleContact extends Contact {
     }
 
     @Override
-    public int getPhoneNumber() {
-    return phoneNumber;
+    public double getPhoneNumber() {
+        return phoneNumber;
     }
 
     @Override
     public void setPhoneNumber(int phoneNumber) {
     this.phoneNumber = phoneNumber;
     }
-    
+        @Override
+    public String getLastName() {
+        return lastName;
+    }
+
+    @Override
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Override
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public int getGender() {
+        return gender;
+    }
+
+    @Override
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    @Override
+    public ImagenAlmacen getImage() {
+        return image;
+    }
+
+    @Override
+    public void setImage(ImagenAlmacen image) {
+        this.image = image;
+    }    
 }
