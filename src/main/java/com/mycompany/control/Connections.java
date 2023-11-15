@@ -21,4 +21,5 @@ public interface Connections {
     public boolean contactExist(double phoneNum);
     public ResultSet getTable(String nameTable);
     public void connectionClose(PreparedStatement  statement, Connection connection)throws SQLException;
+    public String getGender(int id);
 }

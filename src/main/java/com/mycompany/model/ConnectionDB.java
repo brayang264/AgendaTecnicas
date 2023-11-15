@@ -102,7 +102,6 @@ public class ConnectionDB implements Connections{
              connectionClose(statement,connection);
              return resultSet;
         }catch (SQLException e) {
-            e.printStackTrace();
             return null;
         }
     }
@@ -111,6 +110,24 @@ public class ConnectionDB implements Connections{
     public void connectionClose(PreparedStatement statement, Connection connection) throws SQLException {
         statement.close();
         connection.close();
+    }
+
+    @Override
+    public String getGender(int id) {
+        Connection connection = ControlDB.getConnection();
+        sql = "SELECT sexo FROM sexo WHERE Tipo = ?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            String gender="";
+            while(resultSet.next()){
+                gender = resultSet.getString("sexo");
+            }
+            return gender;
+        }catch(SQLException e){
+            return "";
+        }
     }
 
     

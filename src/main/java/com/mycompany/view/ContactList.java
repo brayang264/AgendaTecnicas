@@ -6,9 +6,8 @@ package com.mycompany.view;
 
 import com.mycompany.control.Contact;
 import com.mycompany.control.ControlDB;
-import com.mycompany.control.ImagenAlmacen;
-import java.awt.Image;
-import java.awt.Panel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -26,7 +25,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author Juan José
+ * @author Juan José y Brayan
  */
 public class ContactList extends javax.swing.JFrame {
 
@@ -45,8 +44,10 @@ public class ContactList extends javax.swing.JFrame {
 
     //Instancia de la clase control
     private ControlDB controlDB = new ControlDB();
+    //Arrays para guardar las imagenes, nombres y números de los contactos
+    private ArrayList<JLabel> images = new ArrayList<>();
     //ArrayList de paneles los contactos
-    private ArrayList<JPanel> panels = new ArrayList<JPanel>();
+    private int contName =0;
     //ArrayList para poder almacenar los contactos
     private ArrayList<Contact> contacts;
     //Metodo para obtener el array de contactos
@@ -69,6 +70,7 @@ public class ContactList extends javax.swing.JFrame {
                     image.setIcon(icon);
                 }
             }
+                images.add(image);
             //Se crea un label para agregar el nombre
             JLabel name = new JLabel();
             name.setText(contact.getName()+" "+contact.getLastName()+"    ");
@@ -80,9 +82,23 @@ public class ContactList extends javax.swing.JFrame {
             panel.add(image);
             panel.add(name);
             panel.add(number);
+            panel.setName(contName+"");
+            contName++;
+            //Se agrega un nuevo evento al panel.
+            addPanelToArray(panel);
             //Se agrega al contenedor
             contactsPanel.add(panel);
         }
+    }
+    //Metodo para agregar al array de paneles y generar el evenento de click
+    private void addPanelToArray(JPanel panel){
+        //Se agrega los paneles al array y se crea su nuevo evento
+            panel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    viewContactInfo(Integer.parseInt(panel.getName()));
+                }
+            });
     }
     //Metodo para convertir bytes en imagenes
     private static ImageIcon convertBytesToImage(byte[] bytes) {
@@ -90,11 +106,18 @@ public class ContactList extends javax.swing.JFrame {
             BufferedImage bufferedImage = null;
             InputStream inputStream = new ByteArrayInputStream(bytes);
             bufferedImage = ImageIO.read(inputStream);
-            ImageIcon mIcon = new ImageIcon(bufferedImage.getScaledInstance(60, 60,0));
-            return mIcon;
-        }catch(Exception ex){
+            return new ImageIcon(bufferedImage.getScaledInstance(60, 60,0));
+        }catch(IOException ex){
             return null;
         }
+    }
+    //Metodo para ver la info de un contacto, eliminarlo o agregarlo
+    private void viewContactInfo(int index){
+        System.out.println(index);
+        System.out.println();
+        ViewContact view = new ViewContact();
+        view.getInfoContact(contacts.get(index), images.get(index));
+        view.setVisible(true);
     }
     /**
      * This method is called from within the constructor to initialize the form.

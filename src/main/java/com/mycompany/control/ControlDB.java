@@ -122,4 +122,12 @@ public class ControlDB {
             return contact;
         }
     }
+    //Metodo para obtener el género de un contacto
+    public String ctrlGetGender(Contact contact){
+        if(!db.contactExist(contact.getPhoneNumber())){
+            return "El contacto no existe";
+        }else{
+            return db.getGender(contact.getGender());
+        }
+    }
 }
