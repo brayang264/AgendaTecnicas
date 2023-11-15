@@ -4,7 +4,6 @@
  */
 package com.mycompany.model;
 import com.mycompany.control.Contact;
-import com.mycompany.control.ImagenAlmacen;
 /**
  *
  * @author sren9

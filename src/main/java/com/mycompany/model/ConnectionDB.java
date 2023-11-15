@@ -9,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import com.mycompany.control.ControlDB;
-import com.mycompany.control.ImagenAlmacen;
 import com.mycompany.control.Validate;
 import java.sql.ResultSet;
 /**

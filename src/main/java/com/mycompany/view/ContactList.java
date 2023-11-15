@@ -113,8 +113,6 @@ public class ContactList extends javax.swing.JFrame {
     }
     //Metodo para ver la info de un contacto, eliminarlo o agregarlo
     private void viewContactInfo(int index){
-        System.out.println(index);
-        System.out.println();
         ViewContact view = new ViewContact();
         view.getInfoContact(contacts.get(index), images.get(index));
         view.setVisible(true);

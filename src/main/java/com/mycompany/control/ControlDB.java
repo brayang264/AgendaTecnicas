@@ -5,6 +5,7 @@
  */
 package com.mycompany.control;
 
+import com.mycompany.model.ImagenAlmacen;
 import com.mycompany.model.ConnectionDB;
 import com.mycompany.model.FemaleContact;
 import com.mycompany.model.MaleContact;

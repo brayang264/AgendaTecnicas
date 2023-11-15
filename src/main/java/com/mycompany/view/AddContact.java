@@ -5,7 +5,7 @@
 package com.mycompany.view;
 
 import com.mycompany.control.ControlDB;
-import com.mycompany.control.ImagenAlmacen;
+import com.mycompany.model.ImagenAlmacen;
 import com.mycompany.control.Validate;
 import java.awt.Image;
 import java.io.File;

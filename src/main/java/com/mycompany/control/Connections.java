@@ -5,6 +5,7 @@
  */
 package com.mycompany.control;
 
+import com.mycompany.model.ImagenAlmacen;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

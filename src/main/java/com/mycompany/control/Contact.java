@@ -4,6 +4,8 @@
  */
 package com.mycompany.control;
 
+import com.mycompany.model.ImagenAlmacen;
+
 /**
  *
  * @author sren9
