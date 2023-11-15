@@ -11,7 +11,6 @@ import com.mycompany.model.FemaleContact;
 import com.mycompany.model.MaleContact;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -34,7 +33,6 @@ public class ControlDB {
             Connection connection = DriverManager.getConnection(url, usuario, contraseña);
             return connection;
         } catch (SQLException e) {
-            e.printStackTrace();
             return null;
         }
     }
@@ -89,7 +87,7 @@ public class ControlDB {
     }
     //Metodo para obtener todos los contactos
     public ArrayList<Contact> getAllContacts() throws SQLException{
-        ArrayList<Contact> contacts = new ArrayList<Contact>();
+        ArrayList<Contact> contacts = new ArrayList<>();
         //Se obtiene todos y cada uno de los contactos que hay en la bd
         ResultSet resultSet = db.getTable("contactos");
         //Si no hay datos o algo falla se devulve el array vacio

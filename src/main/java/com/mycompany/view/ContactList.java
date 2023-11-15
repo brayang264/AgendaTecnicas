@@ -6,6 +6,7 @@ package com.mycompany.view;
 
 import com.mycompany.control.Contact;
 import com.mycompany.control.ControlDB;
+import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -92,12 +93,24 @@ public class ContactList extends javax.swing.JFrame {
     }
     //Metodo para agregar al array de paneles y generar el evenento de click
     private void addPanelToArray(JPanel panel){
-        //Se agrega los paneles al array y se crea su nuevo evento
+        //Se agrega los paneles al array y se crea su nuevo evento y cambia el icono del 
+        //cursor cuando se pasa por enciam de uno de estos paneles 
             panel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     viewContactInfo(Integer.parseInt(panel.getName()));
                 }
+                @Override
+            public void mouseEntered(MouseEvent e) {
+                // Cambia el cursor cuando el mouse entra al JPanel
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // Restaura el cursor cuando el mouse sale del JPanel
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
             });
     }
     //Metodo para convertir bytes en imagenes

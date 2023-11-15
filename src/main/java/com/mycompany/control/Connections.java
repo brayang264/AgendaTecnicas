@@ -23,4 +23,6 @@ public interface Connections {
     public ResultSet getTable(String nameTable);
     public void connectionClose(PreparedStatement  statement, Connection connection)throws SQLException;
     public String getGender(int id);
+    public boolean updateContact(Contact contact,int intentions);
+    public boolean deleteContact(Contact contact);
 }

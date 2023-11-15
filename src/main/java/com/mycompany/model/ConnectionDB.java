@@ -5,6 +5,7 @@
  */
 package com.mycompany.model;
 import com.mycompany.control.Connections;
+import com.mycompany.control.Contact;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -127,6 +128,28 @@ public class ConnectionDB implements Connections{
         }catch(SQLException e){
             return "";
         }
+    }
+
+    @Override
+    public boolean updateContact(Contact contact, int intentions) {
+        Connection connection  = ControlDB.getConnection();
+        sql = "UPDATE contactos set Nombre = ?, Apellido = ?, Correo = ?, Sexo = ?, "
+                + "Intenciones = ?, Grupo = ?, Imagen = ? WHERE Numero = ?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1,contact.getName());
+            statement.setString(2,contact.getLastName());
+            statement.setString(3, contact.getEmail());
+            statement.setInt(4, contact.getGender()+1);
+            statement.setInt(5, intentions+1);
+            return true;
+        }catch(SQLException e){
+            return false;
+        }
+    }
+    @Override
+    public boolean deleteContact(Contact contact) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     

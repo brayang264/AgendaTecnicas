@@ -1,4 +1,3 @@
-com\mycompany\control\BD.class
 com\mycompany\view\ContactList$2.class
 com\mycompany\view\ContactList$5.class
 com\mycompany\view\ViewContact$2.class
@@ -7,7 +6,6 @@ com\mycompany\view\ViewContact.class
 com\mycompany\view\AddContact$6.class
 com\mycompany\view\ContactList.class
 com\mycompany\control\ControlDB.class
-com\mycompany\control\ImagenAlmacen.class
 com\mycompany\view\AddContact.class
 com\mycompany\view\AddContact$1.class
 com\mycompany\view\AddContact$4.class
@@ -15,6 +13,7 @@ com\mycompany\view\ContactList$4.class
 com\mycompany\agenda\Agenda.class
 com\mycompany\view\ViewContact$1.class
 com\mycompany\model\FemaleContact.class
+com\mycompany\model\ImagenAlmacen.class
 com\mycompany\view\AddContact$3.class
 com\mycompany\control\Contact.class
 com\mycompany\model\MaleContact.class
