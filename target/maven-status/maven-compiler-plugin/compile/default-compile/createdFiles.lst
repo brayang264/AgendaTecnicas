@@ -3,6 +3,7 @@ com\mycompany\view\ContactList$5.class
 com\mycompany\view\ViewContact$2.class
 com\mycompany\view\AddContact$2.class
 com\mycompany\view\ViewContact.class
+com\mycompany\view\ViewContact$4.class
 com\mycompany\view\AddContact$6.class
 com\mycompany\view\ContactList.class
 com\mycompany\control\ControlDB.class
@@ -25,3 +26,4 @@ com\mycompany\view\ContactList$3.class
 com\mycompany\model\ContactCollection.class
 com\mycompany\model\ConnectionDB.class
 com\mycompany\view\AddContact$5.class
+com\mycompany\view\ViewContact$5.class

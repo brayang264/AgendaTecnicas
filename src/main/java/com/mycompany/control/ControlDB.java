@@ -10,9 +10,11 @@ import com.mycompany.model.ConnectionDB;
 import com.mycompany.model.FemaleContact;
 import com.mycompany.model.MaleContact;
 import java.sql.Connection;
+import java.text.DecimalFormat;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import javax.swing.JComboBox;
 
@@ -21,6 +23,8 @@ import javax.swing.JComboBox;
  * @author Brayan
  */
 public class ControlDB {
+    //Formato para los numeros de telefonos
+    private DecimalFormat formatter = new DecimalFormat();
     //Hace una instancias de la clase para las coneciones con la base
     private ConnectionDB db = new ConnectionDB();
     //Retorna una connecion con la base de datos
@@ -101,9 +105,10 @@ public class ControlDB {
                 String email = resultSet.getString("Correo");
                 int gender = resultSet.getInt("Sexo");
                 int intentions = resultSet.getInt("Intenciones");
+                int group = resultSet.getInt("Grupo");
                 ImagenAlmacen mImage = new ImagenAlmacen();
                 mImage.setImagen(resultSet.getBytes("Imagen"));
-                Contact contact = createContact(name,number,intentions,lastName,email,gender,mImage);
+                Contact contact = createContact(name,number,intentions,lastName,email,gender,mImage,group);
                 contacts.add(contact);
             }
             return contacts;
@@ -111,13 +116,13 @@ public class ControlDB {
     }
     //Crea contactos hombre o mujer dependiendo del tipo
     private Contact createContact(String name, double phoneNumber, int intentions, String lastName, String email
-    ,int gender, ImagenAlmacen image){
+    ,int gender, ImagenAlmacen image,int group){
         Contact contact;
         if(gender ==1){
-            contact = new MaleContact(name,phoneNumber,lastName,email,gender, image);
+            contact = new MaleContact(name,phoneNumber,lastName,email,gender, image, group);
             return contact;
         }else{
-            contact = new FemaleContact(name,phoneNumber,intentions,lastName,email,gender,image);
+            contact = new FemaleContact(name,phoneNumber,intentions,lastName,email,gender,image,group);
             return contact;
         }
     }
@@ -129,4 +134,39 @@ public class ControlDB {
             return db.getGender(contact.getGender());
         }
     }
+    //Metodo para eliminar un contacto
+    public String ctrlDeleteContact(Contact contact){
+        String number = formatter.format(contact.getPhoneNumber());
+        int answer = JOptionPane.showConfirmDialog(null, "¿Estás seguro de "
+                + "eliminar a "+contact.getName()+" "+contact.getLastName()+"?\n"
+                        + "Número: "+number.replace(".", ""),
+                "¿Seguro de continuar?", 1);
+        if(answer != JOptionPane.YES_OPTION){
+            return "Se ha cancelado la eliminación del contacto con éxito";
+        }else{
+            if(!db.deleteContact(contact)){
+                return "Ha sucedido un error durante la eliminación";
+            }else{
+                return "";
+            }
+        }
+    }
+    //Metodo para actualizar en contacto
+    public String ctrlUpdateContact(Contact contact, int intentions){
+        String number = formatter.format(contact.getPhoneNumber());
+        int answer = JOptionPane.showConfirmDialog(null, "¿Estás seguro de "
+                + "actualizar la información de "+contact.getName()+" "+contact.getLastName()+"?\n"
+                        + "Número: "+number.replace(".", ""),
+                "¿Seguro de continuar?", 1);
+        if(answer != JOptionPane.YES_OPTION){
+            return "Se cancelo la actualización de los datos";
+       }else{
+            if(!db.updateContact(contact, intentions)){
+                return "Ha acurrido un error durante la actualización de los datos";
+            }else{
+                return "";
+            }
+        }
+    }
 }
+ 

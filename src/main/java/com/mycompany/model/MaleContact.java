@@ -11,8 +11,8 @@ import com.mycompany.control.Contact;
 public class MaleContact extends Contact {
 
     public MaleContact(String name, double phoneNumber, String lastName, String email
-    ,int gender, ImagenAlmacen image) {
-        super(name, phoneNumber, lastName, email, gender, image);
+    ,int gender, ImagenAlmacen image, int group) {
+        super(name, phoneNumber, lastName, email, gender, image,group);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class MaleContact extends Contact {
     }
 
     @Override
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(double phoneNumber) {
     this.phoneNumber = phoneNumber;
     }
         @Override
@@ -73,4 +73,13 @@ public class MaleContact extends Contact {
     public void setImage(ImagenAlmacen image) {
         this.image = image;
     }    
+    @Override
+    public int getGroup() {
+        return group;
+    }
+
+    @Override
+    public void setGroup(int group) {
+        this.group = group;
+    }
 }

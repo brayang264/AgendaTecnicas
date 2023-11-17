@@ -124,6 +124,7 @@ public class ConnectionDB implements Connections{
             while(resultSet.next()){
                 gender = resultSet.getString("sexo");
             }
+            connectionClose(statement,connection);
             return gender;
         }catch(SQLException e){
             return "";
@@ -140,16 +141,31 @@ public class ConnectionDB implements Connections{
             statement.setString(1,contact.getName());
             statement.setString(2,contact.getLastName());
             statement.setString(3, contact.getEmail());
-            statement.setInt(4, contact.getGender()+1);
+            statement.setInt(4, contact.getGender());
             statement.setInt(5, intentions+1);
-            return true;
+            statement.setInt(6,contact.getGroup());
+            statement.setBytes(7, contact.getImage().getImagen());
+            statement.setDouble(8, contact.getPhoneNumber());
+            int updateRows = statement.executeUpdate();
+            connectionClose(statement,connection);
+            return updateRows > 0;
         }catch(SQLException e){
             return false;
         }
     }
     @Override
     public boolean deleteContact(Contact contact) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Connection connection = ControlDB.getConnection();
+        sql = "DELETE FROM contactos WHERE Numero = ?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setDouble(1, contact.getPhoneNumber());
+            int deleteRows = statement.executeUpdate();
+            connectionClose(statement,connection);
+            return deleteRows>0;
+        }catch(SQLException e){
+            return false;
+        }
     }
 
     

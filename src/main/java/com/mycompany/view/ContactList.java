@@ -98,7 +98,11 @@ public class ContactList extends javax.swing.JFrame {
             panel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    viewContactInfo(Integer.parseInt(panel.getName()));
+                    try {
+                        viewContactInfo(Integer.parseInt(panel.getName()));
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ContactList.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 @Override
             public void mouseEntered(MouseEvent e) {
@@ -125,7 +129,7 @@ public class ContactList extends javax.swing.JFrame {
         }
     }
     //Metodo para ver la info de un contacto, eliminarlo o agregarlo
-    private void viewContactInfo(int index){
+    private void viewContactInfo(int index) throws SQLException{
         ViewContact view = new ViewContact();
         view.getInfoContact(contacts.get(index), images.get(index));
         view.setVisible(true);

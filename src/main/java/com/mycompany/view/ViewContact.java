@@ -7,8 +7,18 @@ package com.mycompany.view;
 
 import com.mycompany.control.Contact;
 import com.mycompany.control.ControlDB;
+import com.mycompany.control.Validate;
+import com.mycompany.model.ImagenAlmacen;
+import java.awt.Image;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -17,13 +27,47 @@ import javax.swing.JLabel;
 public class ViewContact extends javax.swing.JFrame {
     //Formato para los numeros de telefonos
     private DecimalFormat formatter = new DecimalFormat();
-    /** Creates new form VerContacto */
-    public ViewContact() {
+    /** Creates new form VerContacto
+     * @throws java.sql.SQLException */
+    public ViewContact() throws SQLException {
         initComponents();
+        addSocialGrups();
+        addGender();
+        addIntentions();
     }
-    
+    //Campos de la clase
+    private String Ruta = "";
+    private Contact currentContact;
     //Instancia clase control
     private ControlDB control = new ControlDB();
+    //Rellena el comboBox de los grupos sociales a los cuales puede pertenecer el contacto
+    private void addSocialGrups() throws SQLException{
+        //Limpia los elemtos que hay en el comboBox
+        cbGroup.removeAllItems();
+        control.getElementsCB(cbGroup, "Tipo", "tipos_grupo");
+    }
+    //Rellena el comboBox de los sexos a los cuales puede pertenecer el contacto
+    private void addGender()throws SQLException{
+        cbGender.removeAllItems();
+        control.getElementsCB(cbGender, "Sexo", "sexo");
+    }
+    //Rellena el comboBox de las intenciones a los cuales puede pertenecer el contacto
+    private void addIntentions()throws SQLException{
+        cbIntentions.removeAllItems();
+        control.getElementsCB(cbIntentions, "Intencion", "intenciones");
+    }
+    //Metodo para rellenar la informacion correspondiente al contacto seleccionado
+    public void getInfoContact(Contact contact, JLabel image){
+        lblImage.setIcon(image.getIcon());
+        nameField.setText(contact.getName());
+        String num = formatter.format(contact.getPhoneNumber());
+        phoneField.setText(num.replace(".", ""));
+        lastNameField.setText(contact.getLastName());
+        emailField.setText(contact.getEmail());
+        cbGroup.setSelectedIndex(contact.getGroup()-1);
+        cbGender.setSelectedIndex(contact.getGender()-1);
+        currentContact = contact;
+    }
     
     /** This method is called from within the constructor to
      * initialize the form.
@@ -45,14 +89,15 @@ public class ViewContact extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jbn_Atras = new javax.swing.JButton();
-        jbn_Editar = new javax.swing.JButton();
+        btnSaveChanges = new javax.swing.JButton();
         jbn_Borrar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         lblImage = new javax.swing.JLabel();
         lastNameField = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        cbGender = new javax.swing.JComboBox<>();
+        cbIntentions = new javax.swing.JComboBox<>();
+        cbGroup = new javax.swing.JComboBox<>();
+        btnChangeImage = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -83,13 +128,30 @@ public class ViewContact extends javax.swing.JFrame {
             }
         });
 
-        jbn_Editar.setText("Editar");
+        btnSaveChanges.setText("Guardar Cambios");
+        btnSaveChanges.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveChangesActionPerformed(evt);
+            }
+        });
 
         jbn_Borrar.setText("Borrar");
+        jbn_Borrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbn_BorrarActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Informacion del contacto");
 
         lblImage.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        btnChangeImage.setText("Cambiar foto de perfil");
+        btnChangeImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChangeImageActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -107,8 +169,8 @@ public class ViewContact extends javax.swing.JFrame {
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBox3, 0, 110, Short.MAX_VALUE))))
+                                    .addComponent(cbIntentions, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cbGroup, 0, 110, Short.MAX_VALUE))))
                         .addGap(0, 410, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,29 +185,36 @@ public class ViewContact extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(182, 182, 182)
-                                .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(237, 237, 237))
+                                    .addComponent(cbGender, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(324, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(213, 213, 213)
-                        .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jbn_Atras, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 370, Short.MAX_VALUE)
-                        .addComponent(jbn_Editar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSaveChanges, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(213, 213, 213)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(btnChangeImage))
+                            .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addComponent(jbn_Borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(188, 188, 188)
+                        .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(241, 241, 241)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,16 +222,18 @@ public class ViewContact extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbn_Atras)
                     .addComponent(jbn_Borrar)
-                    .addComponent(jbn_Editar))
+                    .addComponent(btnSaveChanges))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnChangeImage)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -175,15 +246,15 @@ public class ViewContact extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbIntentions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbGroup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(70, 70, 70))
         );
 
@@ -215,6 +286,74 @@ public class ViewContact extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_phoneFieldActionPerformed
 
+    private void btnSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveChangesActionPerformed
+        String result = changedDatas(currentContact);
+        if(result.length()>1){
+            Validate.print(result);
+        }else{
+            Validate.print("Cambios realizados con éxito");
+        }
+    }//GEN-LAST:event_btnSaveChangesActionPerformed
+    //Metodo para cambiar los compos del contacto
+    private String changedDatas(Contact contact){
+        if(Validate.isNumber(phoneField.getText())){
+            double newNumber = Validate.convertToDouble(phoneField.getText());
+            contact.setName(nameField.getText());
+            contact.setLastName(lastNameField.getText());
+            contact.setEmail(emailField.getText());
+            contact.setGroup(cbGroup.getSelectedIndex()+1);
+            contact.setGender(cbGender.getSelectedIndex()+1); 
+            contact.setPhoneNumber(newNumber);
+            getNewImage(contact);
+            return control.ctrlUpdateContact(contact, cbIntentions.getSelectedIndex());
+        }else{
+            return "No se ha ingresado el número telefonico de manera correcta";
+        }
+    }
+    
+    //Metodo para obtener la imagen y guardala en el objeto contacto
+    private void getNewImage(Contact contact){
+        ImagenAlmacen mImagen = new ImagenAlmacen();
+        mImagen.setImagen(getImagen(Ruta));
+        contact.setImage(mImagen);
+    }
+    //Metodo para convertir una imagen a bytes
+    private byte[] getImagen(String Ruta) {
+        File imagen = new File(Ruta);
+        try {
+            byte[] icono = new byte[(int) imagen.length()];
+            InputStream input = new FileInputStream(imagen);
+            input.read(icono);
+            return icono;
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+    
+    //Metodo para poner la imagen en el label
+    private void btnChangeImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeImageActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter extensionFilter = new FileNameExtensionFilter("JPG, PNG & GIF", "jpg", "png", "gif");
+        fileChooser.setFileFilter(extensionFilter);
+
+        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            Ruta = fileChooser.getSelectedFile().getAbsolutePath();
+            Image mImagen = new ImageIcon(Ruta).getImage();
+            ImageIcon mIcono = new ImageIcon(mImagen.getScaledInstance(lblImage.getWidth(), lblImage.getHeight(), 0));
+            lblImage.setIcon(mIcono);
+        }
+    }//GEN-LAST:event_btnChangeImageActionPerformed
+
+    private void jbn_BorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_BorrarActionPerformed
+        String reply = control.ctrlDeleteContact(currentContact);
+        if(reply.length()>1){
+            Validate.print(reply);
+        }else{
+            Validate.print("Se ha eliminado el contacto con éxito");
+            this.dispose();
+        }
+    }//GEN-LAST:event_jbn_BorrarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -231,40 +370,30 @@ public class ViewContact extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ViewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ViewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ViewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ViewContact.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
                 new ViewContact().setVisible(true);
+            } catch (SQLException ex) {
+                Validate.consolePrint(ex.toString());
             }
         });
     }
-    //Metodo para rellenar la informacion correspondiente al contacto seleccionado
-    public void getInfoContact(Contact contact, JLabel image){
-        lblImage.setIcon(image.getIcon());
-        nameField.setText(contact.getName());
-        String num = formatter.format(contact.getPhoneNumber());
-        phoneField.setText(num.replace(".", ""));
-        lastNameField.setText(contact.getLastName());
-        emailField.setText(contact.getEmail());
-        genderField.setText(control.ctrlGetGender(contact));
-    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnChangeImage;
+    private javax.swing.JButton btnSaveChanges;
+    private javax.swing.JComboBox<String> cbGender;
+    private javax.swing.JComboBox<String> cbGroup;
+    private javax.swing.JComboBox<String> cbIntentions;
     private javax.swing.JTextField emailField;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -275,7 +404,6 @@ public class ViewContact extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton jbn_Atras;
     private javax.swing.JButton jbn_Borrar;
-    private javax.swing.JButton jbn_Editar;
     private javax.swing.JTextField lastNameField;
     private javax.swing.JLabel lblImage;
     private javax.swing.JTextField nameField;

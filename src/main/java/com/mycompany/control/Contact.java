@@ -17,20 +17,22 @@ public abstract class Contact {
     protected int gender;
     protected ImagenAlmacen image;
     protected double phoneNumber;
+    protected int group;
 
-    public Contact(String name, double phoneNumber, String lastName, String email, int gender, ImagenAlmacen image) {
+    public Contact(String name, double phoneNumber, String lastName, String email, int gender, ImagenAlmacen image, int group) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.lastName = lastName;
         this.email = email;
         this.gender = gender;
         this.image = image;
+        this.group = group;
     }
-
+    
     public abstract String getName();
     public abstract void setName(String name);
     public abstract double getPhoneNumber();
-    public abstract void setPhoneNumber(int phoneNumber);
+    public abstract void setPhoneNumber(double phoneNumber);
     public abstract String getLastName();
     public abstract void setLastName(String lastName);
     public abstract String getEmail();
@@ -39,7 +41,8 @@ public abstract class Contact {
     public abstract void setGender(int gender);
     public abstract ImagenAlmacen getImage();
     public abstract void setImage(ImagenAlmacen image);
-    
+    public abstract int getGroup();
+    public abstract void setGroup(int group);
 
     
     
