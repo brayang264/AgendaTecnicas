@@ -18,8 +18,9 @@ public abstract class Contact {
     protected ImagenAlmacen image;
     protected double phoneNumber;
     protected int group;
+    protected int intentions;
 
-    public Contact(String name, double phoneNumber, String lastName, String email, int gender, ImagenAlmacen image, int group) {
+    public Contact(String name, double phoneNumber, String lastName, String email, int gender, ImagenAlmacen image, int group,int intentions) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.lastName = lastName;
@@ -27,8 +28,10 @@ public abstract class Contact {
         this.gender = gender;
         this.image = image;
         this.group = group;
+        this.intentions = intentions;
     }
-    
+    public abstract void setIntentions(int intentions);
+    public abstract int getIntentions();
     public abstract String getName();
     public abstract void setName(String name);
     public abstract double getPhoneNumber();

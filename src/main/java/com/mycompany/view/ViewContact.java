@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -283,7 +285,13 @@ public class ViewContact extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbn_AtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_AtrasActionPerformed
-        // TODO add your handling code here:
+        try {
+            ContactList contactList = new ContactList();
+            contactList.setVisible(true);
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            Logger.getLogger(ContactList.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jbn_AtrasActionPerformed
 
     private void phoneFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneFieldActionPerformed

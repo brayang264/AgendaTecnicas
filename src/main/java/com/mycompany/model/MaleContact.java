@@ -10,9 +10,19 @@ import com.mycompany.control.Contact;
  */
 public class MaleContact extends Contact {
 
+    
     public MaleContact(String name, double phoneNumber, String lastName, String email
-    ,int gender, ImagenAlmacen image, int group) {
-        super(name, phoneNumber, lastName, email, gender, image,group);
+    ,int gender, ImagenAlmacen image, int group,int intentions) {
+        super(name, phoneNumber, lastName, email, gender, image,group,intentions);
+                this.intentions = intentions;
+    }
+    @Override
+    public int getIntentions() {
+        return intentions;
+    }
+    @Override
+    public void setIntentions(int intentions) {
+        this.intentions = intentions;
     }
 
     @Override

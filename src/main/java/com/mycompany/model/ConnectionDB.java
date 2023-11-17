@@ -168,5 +168,22 @@ public class ConnectionDB implements Connections{
         }
     }
 
-    
+    @Override
+    public String getIntentions(int intentions) {
+        Connection connection = ControlDB.getConnection();
+        sql = "SELECT intencion FROM intenciones WHERE id = ?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, intentions);
+            ResultSet resultSet = statement.executeQuery();
+            String intention="";
+            while(resultSet.next()){
+                intention = resultSet.getString("intencion");
+            }
+            connectionClose(statement,connection);
+            return intention;
+        }catch(SQLException e){
+            return "";
+        }
+    }
 }

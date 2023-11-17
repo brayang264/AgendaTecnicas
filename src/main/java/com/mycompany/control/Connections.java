@@ -25,4 +25,5 @@ public interface Connections {
     public String getGender(int id);
     public boolean updateContact(Contact contact,int intentions);
     public boolean deleteContact(Contact contact);
+    public String getIntentions(int intentions);
 }

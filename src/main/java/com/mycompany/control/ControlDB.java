@@ -24,9 +24,9 @@ import javax.swing.JComboBox;
  */
 public class ControlDB {
     //Formato para los numeros de telefonos
-    private DecimalFormat formatter = new DecimalFormat();
+    private final DecimalFormat formatter = new DecimalFormat();
     //Hace una instancias de la clase para las coneciones con la base
-    private ConnectionDB db = new ConnectionDB();
+    private final ConnectionDB db = new ConnectionDB();
     //Retorna una connecion con la base de datos
     public static Connection getConnection(){
         String url = "jdbc:mariadb://localhost:3308/agendatelefonica";
@@ -119,7 +119,7 @@ public class ControlDB {
     ,int gender, ImagenAlmacen image,int group){
         Contact contact;
         if(gender ==1){
-            contact = new MaleContact(name,phoneNumber,lastName,email,gender, image, group);
+            contact = new MaleContact(name,phoneNumber,lastName,email,gender, image, group,intentions);
             return contact;
         }else{
             contact = new FemaleContact(name,phoneNumber,intentions,lastName,email,gender,image,group);
@@ -167,6 +167,10 @@ public class ControlDB {
                 return "";
             }
         }
+    }
+    //Metodo para obtener las intenciones de un contacto
+    public String ctrlGetIntentions(int type){
+        return db.getIntentions(type);
     }
 }
  

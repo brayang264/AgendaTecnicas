@@ -11,12 +11,10 @@ import com.mycompany.control.Contact;
  * @author sren9
  */
 public class FemaleContact extends Contact{
-    private int intentions;
 
     public FemaleContact(String name, double phoneNumber, int intentions, String lastName, String email
     ,int gender, ImagenAlmacen image, int group) {
-        super(name, phoneNumber,lastName,email,gender,image,group);
-        this.intentions = intentions;
+        super(name, phoneNumber,lastName,email,gender,image,group,intentions);
     }
 
     @Override
@@ -34,7 +32,7 @@ public class FemaleContact extends Contact{
         return phoneNumber;
     }
 
-
+    @Override
     public int getIntentions() {
         return intentions;
     }
@@ -95,7 +93,12 @@ public class FemaleContact extends Contact{
 
     @Override
     public void setPhoneNumber(double phoneNumber) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public void setIntentions(int intentions) {
+        this.intentions = intentions;
     }
     
 }

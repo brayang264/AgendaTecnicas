@@ -35,6 +35,8 @@ public class AddContact extends javax.swing.JFrame {
         addGender();
         addIntentions();
     }
+    //Variable para conytrolsr wue se ingrese una foto de perfil
+    private boolean chooseImage=false;
     //Crea una instancia de la clase ControlDB para ser usada como conexion entre el fronetEnd y el backEnd
     ControlDB control = new ControlDB();
     //Rellena el comboBox de los grupos sociales a los cuales puede pertenecer el contacto
@@ -138,6 +140,11 @@ public class AddContact extends javax.swing.JFrame {
         });
 
         jbl_Cancelar.setText("Cancelar");
+        jbl_Cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbl_CancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -154,22 +161,20 @@ public class AddContact extends javax.swing.JFrame {
                             .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(287, 287, 287))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(btnAddImage)
-                                        .addGap(56, 56, 56)))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(phoneNumField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(164, 164, 164)
-                                .addComponent(cbSocialGrup, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnAddImage))
+                                        .addGap(71, 71, 71)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(cbSocialGrup, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -181,7 +186,7 @@ public class AddContact extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(cbGender, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 498, Short.MAX_VALUE))
+                        .addGap(0, 499, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                             .addComponent(jbt_Guardar)
@@ -277,15 +282,26 @@ public class AddContact extends javax.swing.JFrame {
     }//GEN-LAST:event_cbIntentionsActionPerformed
 
     private void jbt_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbt_GuardarActionPerformed
-        ImagenAlmacen mImagen = new ImagenAlmacen();
-        mImagen.setImagen(getImagen(Ruta));
-        String result = control.ctrlAddContact(nameField.getText(), lastNameField.getText(), 
-                phoneNumField.getText(), emailField.getText(),cbGender.getSelectedIndex(),
-                cbIntentions.getSelectedIndex(), cbSocialGrup.getSelectedIndex(),mImagen);
-        if(result.length()>1){
-            Validate.print(result);
+        if(!chooseImage){
+            Validate.print("Debe seleccionar una imagen");
         }else{
-            Validate.print("Se agregó el contacto con éxito");
+            ImagenAlmacen mImagen = new ImagenAlmacen();
+            mImagen.setImagen(getImagen(Ruta));
+            String result = control.ctrlAddContact(nameField.getText(), lastNameField.getText(),
+                    phoneNumField.getText(), emailField.getText(), cbGender.getSelectedIndex(),
+                    cbIntentions.getSelectedIndex(), cbSocialGrup.getSelectedIndex(), mImagen);
+            if (result.length() > 1) {
+                Validate.print(result);
+            } else {
+                Validate.print("Se agregó el contacto con éxito");
+                try {
+                    ContactList contactList = new ContactList();
+                    contactList.setVisible(true);
+                    this.setVisible(false);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ContactList.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            }
         }
     }//GEN-LAST:event_jbt_GuardarActionPerformed
 
@@ -299,8 +315,19 @@ public class AddContact extends javax.swing.JFrame {
             Image mImagen = new ImageIcon(Ruta).getImage();
             ImageIcon mIcono = new ImageIcon(mImagen.getScaledInstance(lblImage.getWidth(), lblImage.getHeight(), 0));
             lblImage.setIcon(mIcono);
+            chooseImage = true;
         }
     }//GEN-LAST:event_btnAddImageActionPerformed
+
+    private void jbl_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbl_CancelarActionPerformed
+        try {
+            ContactList contactList = new ContactList();
+            contactList.setVisible(true);
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            Logger.getLogger(ContactList.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jbl_CancelarActionPerformed
 
     //Metodo para convertir bytes en imagenes
     private byte[] getImagen(String Ruta) {
