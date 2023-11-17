@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -303,6 +302,7 @@ public class AddContact extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAddImageActionPerformed
 
+    //Metodo para convertir bytes en imagenes
     private byte[] getImagen(String Ruta) {
         File imagen = new File(Ruta);
         try {
@@ -313,7 +313,7 @@ public class AddContact extends javax.swing.JFrame {
         } catch (Exception ex) {
             return null;
         }
-        }
+    }
     
     /**
      * @param args the command line arguments

@@ -10,8 +10,11 @@ import com.mycompany.control.ControlDB;
 import com.mycompany.control.Validate;
 import com.mycompany.model.ImagenAlmacen;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -36,6 +39,7 @@ public class ViewContact extends javax.swing.JFrame {
         addIntentions();
     }
     //Campos de la clase
+    private boolean imageChanged = false;
     private String Ruta = "";
     private Contact currentContact;
     //Instancia clase control
@@ -304,7 +308,9 @@ public class ViewContact extends javax.swing.JFrame {
             contact.setGroup(cbGroup.getSelectedIndex()+1);
             contact.setGender(cbGender.getSelectedIndex()+1); 
             contact.setPhoneNumber(newNumber);
-            getNewImage(contact);
+            if(imageChanged){
+                getNewImage(contact);
+            }
             return control.ctrlUpdateContact(contact, cbIntentions.getSelectedIndex());
         }else{
             return "No se ha ingresado el número telefonico de manera correcta";
@@ -337,6 +343,7 @@ public class ViewContact extends javax.swing.JFrame {
         fileChooser.setFileFilter(extensionFilter);
 
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            imageChanged = true;
             Ruta = fileChooser.getSelectedFile().getAbsolutePath();
             Image mImagen = new ImageIcon(Ruta).getImage();
             ImageIcon mIcono = new ImageIcon(mImagen.getScaledInstance(lblImage.getWidth(), lblImage.getHeight(), 0));
