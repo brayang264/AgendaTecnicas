@@ -173,8 +173,8 @@ public class ContactList extends javax.swing.JFrame {
         contactsPanel = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        ContactInfo = new javax.swing.JButton();
+        RetrieveDeletedContacts = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -215,17 +215,17 @@ public class ContactList extends javax.swing.JFrame {
 
         jLabel1.setText("Agregar Contacto Nuevo");
 
-        jButton1.setText("Generar info Contactos");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        ContactInfo.setText("Generar info Contactos");
+        ContactInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                ContactInfoActionPerformed(evt);
             }
         });
 
-        jToggleButton1.setText("Obtener contactos eliminados");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        RetrieveDeletedContacts.setText("Obtener contactos eliminados");
+        RetrieveDeletedContacts.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                RetrieveDeletedContactsActionPerformed(evt);
             }
         });
 
@@ -254,9 +254,9 @@ public class ContactList extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ContactInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jToggleButton1))
+                        .addComponent(RetrieveDeletedContacts))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(202, 202, 202)
                         .addComponent(btnAdd)))
@@ -283,8 +283,8 @@ public class ContactList extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
-                    .addComponent(jButton1)
-                    .addComponent(jToggleButton1))
+                    .addComponent(ContactInfo)
+                    .addComponent(RetrieveDeletedContacts))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
@@ -365,17 +365,24 @@ public class ContactList extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void ContactInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ContactInfoActionPerformed
         try {
             GenerateJson.dataBaseData();
+            JOptionPane.showMessageDialog(null, "Documento Generado");
         } catch (Exception ex) {
             Logger.getLogger(ContactList.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_ContactInfoActionPerformed
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        GenerateJson.RetrieveDeletedContacts(GenerateJson.getCollection());
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    private void RetrieveDeletedContactsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RetrieveDeletedContactsActionPerformed
+        try{
+            GenerateJson.RetrieveDeletedContacts(GenerateJson.getCollection());
+            JOptionPane.showMessageDialog(null, "Documento Generado");
+        } catch (Exception e){
+        
+        }
+        
+    }//GEN-LAST:event_RetrieveDeletedContactsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -419,9 +426,10 @@ public class ContactList extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ContactInfo;
+    private javax.swing.JToggleButton RetrieveDeletedContacts;
     private javax.swing.JButton btnAdd;
     private javax.swing.JPanel contactsPanel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -429,6 +437,5 @@ public class ContactList extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }
