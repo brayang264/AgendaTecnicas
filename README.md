@@ -1,4 +1,5 @@
 # AgendaTecnicas
+Realizado por: Brayan Gómez, Sebastian Rentería, Juan José Monsalve
 Todos los archivos como suposiciones, diagramas, pruebas, roadMap(trello), etc los podra encontrar en las carpetas adjuntas al proyecto
 # Mockups propuestos:
 ![](https://github.com/brayang264/AgendaTecnicas/blob/main/Mockups/1.jpeg)
