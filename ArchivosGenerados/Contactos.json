@@ -1,0 +1,8 @@
+{"Personas":[ 
+{"Numero": 23789041, "Nombre": "Sebastian ", "Apellido": "Renteri", "Correo": "SebastianR@Gmail.com", "Sexo": 1, "Intenciones": 3, "Grupo": 3}
+,{"Numero": 37981232, "Nombre": "Juan Jo", "Apellido": "Monsalve", "Correo": "JuanM@gmail.com", "Sexo": 1, "Intenciones": 3, "Grupo": 3}
+,{"Numero": 38798113, "Nombre": "Brayannn", "Apellido": "Gomez", "Correo": "BrayanG@Gmail.com", "Sexo": 1, "Intenciones": 3, "Grupo": 3}
+,{"Numero": 127308188, "Nombre": "Nombre", "Apellido": "Apellido", "Correo": "Persona@gmail,com", "Sexo": 2, "Intenciones": 4, "Grupo": 3}
+,{"Numero": 873897182, "Nombre": "Equipo", "Apellido": "Trabajo", "Correo": "Trabajo@Gmail,com", "Sexo": 3, "Intenciones": 4, "Grupo": 3}
+] 
+ }
