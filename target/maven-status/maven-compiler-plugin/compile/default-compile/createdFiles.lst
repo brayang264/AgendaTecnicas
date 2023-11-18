@@ -1,4 +1,5 @@
 com\mycompany\view\ContactList$2.class
+com\mycompany\view\ContactList$5.class
 com\mycompany\view\ViewContact$2.class
 com\mycompany\view\AddContact$2.class
 com\mycompany\view\ViewContact.class
@@ -12,10 +13,12 @@ com\mycompany\view\AddContact$4.class
 com\mycompany\view\ContactList$4.class
 com\mycompany\agenda\Agenda.class
 com\mycompany\view\ViewContact$1.class
+com\mycompany\view\ContactList$6.class
 com\mycompany\model\FemaleContact.class
 com\mycompany\model\ImagenAlmacen.class
 com\mycompany\view\AddContact$3.class
 com\mycompany\control\Contact.class
+com\mycompany\control\GenerateJson.class
 com\mycompany\model\MaleContact.class
 com\mycompany\control\Connections.class
 com\mycompany\control\Validate.class

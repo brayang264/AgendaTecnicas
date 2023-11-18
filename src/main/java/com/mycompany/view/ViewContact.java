@@ -7,6 +7,7 @@ package com.mycompany.view;
 
 import com.mycompany.control.Contact;
 import com.mycompany.control.ControlDB;
+import com.mycompany.control.GenerateJson;
 import com.mycompany.control.Validate;
 import com.mycompany.model.ImagenAlmacen;
 import java.awt.Image;
@@ -360,12 +361,14 @@ public class ViewContact extends javax.swing.JFrame {
     }//GEN-LAST:event_btnChangeImageActionPerformed
 
     private void jbn_BorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbn_BorrarActionPerformed
+        Contact tempContact = currentContact;
         String reply = control.ctrlDeleteContact(currentContact);
         if(reply.length()>1){
             Validate.print(reply);
         }else{
+            GenerateJson.collectData(tempContact);
             Validate.print("Se ha eliminado el contacto con éxito");
-            this.dispose();
+            //this.dispose();
         }
     }//GEN-LAST:event_jbn_BorrarActionPerformed
 
